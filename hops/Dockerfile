@@ -15,7 +15,7 @@ RUN	apt-get -qq update &&\
 	apt-get install --no-install-recommends -y ca-certificates \
 		pkg-config make gcc gfortran automake autoconf libtool \
 		libfftw3-dev zlib1g-dev libx11-dev \
-		bc ghostscript-x patch python-setuptools python-future wget &&\
+		bc ghostscript-x python-setuptools python-future wget rsync &&\
 	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
 	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -56,16 +56,11 @@ RUN	wget -q ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz \
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
-ADD	afio.py.in.diff mk4.py.in.diff /usr/local/src/hops/
 RUN	wget -q --no-check-certificate \
-		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.19swc.tar.gz \
+		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.20swc.tar.gz \
 		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/hops-dv-difx-tc-3.19swc.tar.gz \
+	tar -zxf /usr/local/src/hops-dv-difx-tc-3.20swc.tar.gz \
 		-C /usr/local/src/hops --strip-components=1 &&\
-	cd /usr/local/src/hops/sub/mk4py/ &&\
-	patch < ../../afio.py.in.diff &&\
-	patch < ../../mk4.py.in.diff  &&\
-	cd /usr/local/src/hops/build &&\
 	export HOPS_ROOT=/root &&\
 	../configure \
 		--prefix=/usr/local/hops \
