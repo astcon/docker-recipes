@@ -11,48 +11,16 @@
 FROM	debian:stretch-slim AS builder
 
 # Setup build environment
-RUN	apt-get -qq update &&\
+RUN	printf '\n\
+deb http://deb.debian.org/debian jessie main non-free\n\
+' >> /etc/apt/sources.list &&\
+	apt-get -qq update &&\
 	apt-get install --no-install-recommends -y ca-certificates \
 		pkg-config make gcc gfortran automake autoconf libtool \
-		libfftw3-dev zlib1g-dev libx11-dev \
+		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
 		bc ghostscript-x python-setuptools python-future wget rsync &&\
 	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
 	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Build libpng12
-WORKDIR	/usr/local/src/libpng/build
-RUN	wget -q https://downloads.sourceforge.net/project/libpng/libpng12/1.2.59/libpng-1.2.59.tar.gz \
-		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/libpng-1.2.59.tar.gz \
-		-C /usr/local/src/libpng --strip-components=1 &&\
-	../configure \
-		--prefix=/usr/local/hops \
-		--libdir=/usr/local/hops/lib/libpng12 &&\
-	make && make check && make install
-
-# Build pgplot
-WORKDIR	/usr/local/src/pgplot/build
-RUN	wget -q ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz \
-		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/pgplot5.2.tar.gz \
-		-C /usr/local/src/pgplot --strip-components=1 &&\
-	ln -s	/usr/local/hops/include/png.h \
-		/usr/local/hops/include/pngconf.h \
-		/usr/include/zlib.h \
-		/usr/include/zconf.h . &&\
-	sed	-e's/! PN/  PN/g' \
-		-e's/! PS/  PS/g' \
-		-e's/! TTDRIV 5/  TTDRIV 5/g' \
-		-e's/! XW/  XW/g' \
-		../drivers.list > drivers.list &&\
-	../makemake .. linux g77_gcc &&\
-	sed	-e's|-lpng|-L/usr/local/hops/lib/libpng12 -lpng|g' \
-		-e's|FCOMPL=g77|FCOMPL=gfortran|g' \
-		-i~ makefile &&\
-	make && make cpg &&\
-	mkdir -p /usr/local/hops/lib/pgplot &&\
-	cp pgxwin_server cpgplot.h lib* grfont.dat rgb.txt \
-		/usr/local/hops/lib/pgplot
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
@@ -65,9 +33,7 @@ RUN	wget -q --no-check-certificate \
 	../configure \
 		--prefix=/usr/local/hops \
 		--enable-devel \
-		CPPFLAGS='-I/usr/local/hops/include' \
-		LDFLAGS='-L/usr/local/hops/lib/libpng12' \
-		PGPLOT_DIR=/usr/local/hops/lib/pgplot &&\
+		PGPLOT_DIR=/usr/lib/pgplot5 &&\
 	. ./hops.bash &&\
 	make && make install && make check
 
@@ -76,9 +42,13 @@ RUN	wget -q --no-check-certificate \
 FROM	debian:stretch-slim
 
 # Setup runtime environment
-RUN	apt-get -qq update &&\
+RUN	printf '\n\
+deb http://deb.debian.org/debian jessie main non-free\n\
+' >> /etc/apt/sources.list &&\
+	apt-get -qq update &&\
 	apt-get install --no-install-recommends -y ca-certificates \
-		libgfortran3 libquadmath0 libfftw3-double3 zlib1g libx11-6 \
+		libgfortran3 libquadmath0 \
+		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
 		csh ghostscript-x less perl-doc &&\
 	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
 	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
