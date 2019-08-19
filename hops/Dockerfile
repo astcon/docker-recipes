@@ -16,9 +16,9 @@ deb http://deb.debian.org/debian jessie main non-free\n\
 ' >> /etc/apt/sources.list &&\
 	apt-get -qq update &&\
 	apt-get install -y --no-install-recommends ca-certificates \
-		libgfortran3 libquadmath0 \
+		libgfortran3 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
-		ghostscript-x csh less perl-doc &&\
+		csh less perl-doc &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
@@ -28,10 +28,10 @@ FROM	base AS builder
 
 # Setup build environment
 RUN	apt-get -qq update &&\
-	apt-get install --no-install-recommends -y \
+	apt-get install -y --no-install-recommends \
 		gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync python-setuptools python-future &&\
+		bc wget rsync python-future &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
@@ -41,14 +41,16 @@ RUN	wget -q --no-check-certificate \
 		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.20swc.tar.gz \
 		-P /usr/local/src &&\
 	tar -zxf /usr/local/src/hops-dv-difx-tc-3.20swc.tar.gz \
-		-C /usr/local/src/hops --strip-components=1 &&\
-	export HOPS_ROOT=/root &&\
+		-C /usr/local/src/hops --strip-components=1
+RUN	export HOPS_ROOT=/root &&\
 	../configure \
 		--prefix=/usr/local/hops \
 		--enable-devel \
-		PGPLOT_DIR=/usr/lib/pgplot5 &&\
-	. ./hops.bash &&\
-	make && make install && make check
+		PGPLOT_DIR=/usr/lib/pgplot5
+RUN	. ./hops.bash &&\
+	make
+RUN	make check
+RUN	make install
 
 #==============================================================================
 # The HOPS image
