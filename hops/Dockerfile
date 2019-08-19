@@ -31,7 +31,7 @@ RUN	apt-get -qq update &&\
 	apt-get install -y --no-install-recommends \
 		gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync python-future &&\
+		bc wget rsync python3-future &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
@@ -49,7 +49,8 @@ RUN	export HOPS_ROOT=/root &&\
 		PGPLOT_DIR=/usr/lib/pgplot5
 RUN	. ./hops.bash &&\
 	make
-RUN	make check
+RUN	ln -s python3 /usr/bin/python &&\
+	make check
 RUN	make install &&\
 	cd /usr/local/hops/share/hops &&\
 	rm -r 3593.tar.gz testdata uninstall_manifest.txt
