@@ -50,7 +50,9 @@ RUN	export HOPS_ROOT=/root &&\
 RUN	. ./hops.bash &&\
 	make
 RUN	make check
-RUN	make install
+RUN	make install &&\
+	cd /usr/local/hops/share/hops &&\
+	rm -r 3593.tar.gz testdata uninstall_manifest.txt
 
 #==============================================================================
 # The HOPS image
