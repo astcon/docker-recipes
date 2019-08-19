@@ -7,20 +7,33 @@
 # images of `docker build .` may be different at different time.
 #
 #==============================================================================
-# The builder image
-FROM	debian:stretch-slim AS builder
+# The base image
+FROM	debian:stretch-slim AS base
 
-# Setup build environment
+# Setup runtime environment
 RUN	printf '\n\
 deb http://deb.debian.org/debian jessie main non-free\n\
 ' >> /etc/apt/sources.list &&\
 	apt-get -qq update &&\
-	apt-get install --no-install-recommends -y ca-certificates \
-		pkg-config make gcc gfortran automake autoconf libtool \
+	apt-get install -y --no-install-recommends ca-certificates \
+		libgfortran3 libquadmath0 \
+		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
+		ghostscript-x csh less perl-doc &&\
+	apt-get clean &&\
+	rm -rf /var/lib/apt/lists/*
+
+#==============================================================================
+# The builder image
+FROM	base AS builder
+
+# Setup build environment
+RUN	apt-get -qq update &&\
+	apt-get install --no-install-recommends -y \
+		gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc ghostscript-x python-setuptools python-future wget rsync &&\
-	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
-	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+		bc wget rsync python-setuptools python-future &&\
+	apt-get clean &&\
+	rm -rf /var/lib/apt/lists/*
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
@@ -39,19 +52,7 @@ RUN	wget -q --no-check-certificate \
 
 #==============================================================================
 # The HOPS image
-FROM	debian:stretch-slim
-
-# Setup runtime environment
-RUN	printf '\n\
-deb http://deb.debian.org/debian jessie main non-free\n\
-' >> /etc/apt/sources.list &&\
-	apt-get -qq update &&\
-	apt-get install --no-install-recommends -y ca-certificates \
-		libgfortran3 libquadmath0 \
-		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
-		csh ghostscript-x less perl-doc &&\
-	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
-	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+FROM	base
 
 # Copy HOPS from the builder image
 COPY	--from=builder /usr/local/hops /usr/local/hops
