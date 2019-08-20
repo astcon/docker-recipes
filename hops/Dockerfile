@@ -7,87 +7,63 @@
 # images of `docker build .` may be different at different time.
 #
 #==============================================================================
+# The base image
+FROM	debian:stretch-slim AS base
+
+# Setup runtime environment
+RUN	printf '\n\
+deb http://deb.debian.org/debian jessie main non-free\n\
+' >> /etc/apt/sources.list &&\
+	apt-get -qq update &&\
+	apt-get install -y --no-install-recommends ca-certificates \
+		libgfortran3 libquadmath0 ghostscript-x \
+		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
+		csh less perl-doc &&\
+	apt-get clean &&\
+	rm -rf /var/lib/apt/lists/*
+
+#==============================================================================
 # The builder image
-FROM	debian:stretch-slim AS builder
+FROM	base AS builder
 
 # Setup build environment
 RUN	apt-get -qq update &&\
-	apt-get install --no-install-recommends -y ca-certificates \
-		pkg-config make gcc gfortran \
-		libfftw3-dev zlib1g-dev libx11-dev \
-		bc ghostscript-x python-setuptools wget &&\
-	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
-	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
-	ln -s /usr/bin/f77 /usr/bin/g77
-
-# Build libpng12
-WORKDIR	/usr/local/src/libpng/build
-RUN	wget -q https://download.sourceforge.net/libpng/libpng-1.2.58.tar.gz \
-		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/libpng-1.2.58.tar.gz \
-		-C /usr/local/src/libpng --strip-components=1 &&\
-	../configure \
-		--prefix=/usr/local/hops \
-		--libdir=/usr/local/hops/lib/libpng12 &&\
-	make && make install
-
-# Build pgplot
-WORKDIR	/usr/local/src/pgplot/build
-RUN	wget -q ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz \
-		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/pgplot5.2.tar.gz \
-		-C /usr/local/src/pgplot --strip-components=1 &&\
-	ln -s	/usr/local/hops/include/png.h \
-		/usr/local/hops/include/pngconf.h \
-		/usr/include/zlib.h \
-		/usr/include/zconf.h . &&\
-	sed	-e's/! PN/  PN/g' \
-		-e's/! PS/  PS/g' \
-		-e's/! TTDRIV 5/  TTDRIV 5/g' \
-		-e's/! XW/  XW/g' \
-		../drivers.list > drivers.list &&\
-	../makemake .. linux g77_gcc &&\
-	sed -i~	-e's;-lpng;-L/usr/local/hops/lib/libpng12 -lpng;g' makefile &&\
-	make && make cpg &&\
-	mkdir -p /usr/local/hops/lib/pgplot &&\
-	cp pgxwin_server cpgplot.h lib* grfont.dat rgb.txt \
-		/usr/local/hops/lib/pgplot
+	apt-get install -y --no-install-recommends \
+		gcc gfortran make automake autoconf libtool pkg-config \
+		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
+		bc wget rsync python3-future &&\
+	apt-get clean &&\
+	rm -rf /var/lib/apt/lists/*
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
-RUN	wget -q http://fermi.myds.me/hops/hops-dv-difx-tc-3.17swc.tar.gz \
+RUN	wget -q --no-check-certificate \
+		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.20swc.tar.gz \
 		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/hops-dv-difx-tc-3.17swc.tar.gz \
-		-C /usr/local/src/hops --strip-components=1 &&\
+	tar -zxf /usr/local/src/hops-dv-difx-tc-3.20swc.tar.gz \
+		-C /usr/local/src/hops --strip-components=1
+RUN	export HOPS_ROOT=/root &&\
 	../configure \
 		--prefix=/usr/local/hops \
 		--enable-devel \
-		CPPFLAGS='-I/usr/local/hops/include' \
-		LDFLAGS='-L/usr/local/hops/lib/libpng12' \
-		PGPLOT_DIR=/usr/local/hops/lib/pgplot \
-		HOPS_ROOT=/root &&\
-	make && make check &&\
-	make install
+		PGPLOT_DIR=/usr/lib/pgplot5
+RUN	. ./hops.bash &&\
+	make
+RUN	ln -s python3 /usr/bin/python &&\
+	make check
+RUN	make install &&\
+	cd /usr/local/hops/share/hops &&\
+	rm -r 3593.tar.gz testdata uninstall_manifest.txt
 
 #==============================================================================
 # The HOPS image
-FROM	debian:stretch-slim
-
-# Setup runtime environment
-RUN	apt-get -qq update &&\
-	apt-get install --no-install-recommends -y ca-certificates \
-		libgfortran3 libquadmath0 libfftw3-double3 zlib1g libx11-6 \
-		csh ghostscript-x less perl-doc &&\
-	apt-get remove -y ca-certificates && apt-get autoremove -y &&\
-	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+FROM	base
 
 # Copy HOPS from the builder image
 COPY	--from=builder /usr/local/hops /usr/local/hops
 RUN	printf '\n# all users should source HOPS\n\
 if [ -f /usr/local/hops/bin/hops.bash ]; then\n\
   source /usr/local/hops/bin/hops.bash\n\
-  unset HOPS_ARCH\n\
-  export LD_LIBRARY_PATH="/usr/local/hops/lib/hops:$LD_LIBRARY_PATH"\n\
 fi\n' >> /etc/bash.bashrc
 
 # `docker run -it <HOPS_img>` will run as "root" in the HOPS environment
