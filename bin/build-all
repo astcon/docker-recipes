@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -ex
-
-for d in difx hops hops-stack aips aips-stack eat eat-notebook eat-lab; do
-	docker build -t eventhorizontelescope/$d $d
-	docker push     eventhorizontelescope/$d
-done

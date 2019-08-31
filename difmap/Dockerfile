@@ -1,6 +1,7 @@
-# This Dockfiler builds the Haystack Observatory Postprocessing System
-# (HOPS) environment for performing data calibration for the Event
-# Horizon Telescope (EHT)'s April 2017 observations.
+# This Dockfiler builds `difmap`, a program developed for synthesis
+# imaging of visibility data from interferometer arrays of radio
+# telescopes, for performing data calibration for the Event Horizon
+# Telescope (EHT)'s April 2017 observations.
 #
 # NOTE: Although a Docker image is immutable, building a new image is
 # not, even when the same Dockfile is used.  Hence, the resulting
@@ -30,41 +31,30 @@ FROM	base AS builder
 RUN	apt-get -qq update &&\
 	apt-get install -y --no-install-recommends \
 		gcc gfortran make automake autoconf libtool pkg-config \
-		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync python3-future &&\
+		zlib1g-dev libx11-dev libncurses5-dev wget &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
-# Build HOPS
-WORKDIR	/usr/local/src/hops/build
-RUN	wget -q --no-check-certificate \
-		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.20swc.tar.gz \
+# Build difmap
+WORKDIR	/usr/local/src/difmap
+RUN	wget -q ftp://ftp.astro.caltech.edu/pub/difmap/difmap2.5e.tar.gz \
 		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/hops-dv-difx-tc-3.20swc.tar.gz \
-		-C /usr/local/src/hops --strip-components=1
-RUN	export HOPS_ROOT=/root &&\
-	../configure \
-		--prefix=/usr/local/hops \
-		--enable-devel \
-		PGPLOT_DIR=/usr/lib/pgplot5
-RUN	. ./hops.bash &&\
-	make
-RUN	ln -s python3 /usr/bin/python &&\
-	make check
-RUN	make install &&\
-	cd /usr/local/hops/share/hops &&\
-	rm -r 3593.tar.gz testdata uninstall_manifest.txt
+	tar -zxf /usr/local/src/difmap2.5e.tar.gz \
+		-C /usr/local/src/difmap --strip-components=2
+RUN	./configure linux-i486-gcc
+RUN	./makeall
+RUN	mkdir -p /usr/local/difmap/bin /usr/local/difmap/share &&\
+	cp    difmap /usr/local/difmap/bin &&\
+	cp -r help   /usr/local/difmap/share
 
 #==============================================================================
-# The HOPS image
+# The difmap image
 FROM	base
 
-# Copy HOPS from the builder image
-COPY	--from=builder /usr/local/hops /usr/local/hops
-RUN	printf '\n# all users should source HOPS\n\
-if [ -f /usr/local/hops/bin/hops.bash ]; then\n\
-  source /usr/local/hops/bin/hops.bash\n\
-fi\n' >> /etc/bash.bashrc
+# Copy difmap from the builder image
+COPY	--from=builder /usr/local/difmap /usr/local/difmap
+RUN	printf '\n# place difmap path\n\
+export PATH="/usr/local/difmap/bin:$PATH"\n' >> /etc/bash.bashrc
 
 # `docker run -it <HOPS_img>` will run as "root" in the HOPS environment
 WORKDIR	/root
