@@ -37,9 +37,9 @@ RUN	apt-get -qq update &&\
 
 # Build difmap
 WORKDIR	/usr/local/src/difmap
-RUN	wget -q ftp://ftp.astro.caltech.edu/pub/difmap/difmap2.5b.tar.gz \
+RUN	wget -q ftp://ftp.astro.caltech.edu/pub/difmap/difmap2.5e.tar.gz \
 		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/difmap2.5b.tar.gz \
+	tar -zxf /usr/local/src/difmap2.5e.tar.gz \
 		-C /usr/local/src/difmap --strip-components=2
 RUN	./configure linux-i486-gcc
 RUN	./makeall
