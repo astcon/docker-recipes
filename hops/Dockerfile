@@ -18,7 +18,7 @@ deb http://deb.debian.org/debian jessie main non-free\n\
 	apt-get install -y --no-install-recommends ca-certificates \
 		libgfortran3 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
-		csh less perl-doc &&\
+		csh less &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
