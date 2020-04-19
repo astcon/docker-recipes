@@ -20,5 +20,5 @@ for f in */Dockerfile; do
 	vars=($(awk '/^---[ |-]*$/{getline; print}' "${d}/"README* | tr -d ' `' | tr '|' '\n'))
 	tags=($(echo "${vars[0]}" | tr ',' '\n'))
 	t="${tags[0]}"
-	docker build -t "l6acon/$d:$t" "$d"
+	docker build -t "astcon/$d:$t" "$d"
 done
