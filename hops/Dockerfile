@@ -75,10 +75,10 @@ FROM	base
 
 # Copy HOPS from the builder image
 COPY	--from=builder /usr/local/hops /usr/local/hops
-RUN	printf '\n# all users should source HOPS\n\
-if [ -f /usr/local/hops/bin/hops.bash ]; then\n\
-  source /usr/local/hops/bin/hops.bash\n\
-fi\n' >> /etc/bash.bashrc
+RUN	HOPS_SETUP=$(find /usr/local/hops -name 'hops.bash' | sort -rV | head -n1) &&\
+	if test -n "$HOPS_SETUP"; then \
+		printf "\n# all users should source HOPS\nsource ${HOPS_SETUP}\n" >> /etc/bash.bashrc; \
+	fi
 
 # `docker run -it <HOPS_img>` will run as "root" in the HOPS environment
 WORKDIR	/root
