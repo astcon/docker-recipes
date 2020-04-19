@@ -14,17 +14,21 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-# This Dockfiler builds the Haystack Observatory Postprocessing System
-# (HOPS) environment for performing data calibration for the Event
-# Horizon Telescope (EHT)'s April 2017 observations.
-#
-# NOTE: Although a Docker image is immutable, building a new image is
-# not, even when the same Dockfile is used.  Hence, the resulting
-# images of `docker build .` may be different at different time.
-
 ARG     dsttag=
 ARG     srctag=20200130
 ARG     hopsversion=
+
+# This Dockfiler builds the Haystack Observatory Postprocessing System
+# (HOPS) environment for performing data calibration for the Event
+# Horizon Telescope (EHT)'s observations.
+#
+# NOTE: In general, although a Docker image is immutable, building a
+# new image is not even when using the same Dockfile.  Nevertheless,
+# by using following Project Laninakea's best practices and using the
+# Laniakea base image, building a HOPS container using this Dockerfile
+# should be reporducible.  Non-reproduciblity is considered a bug in
+# Project Laniakea, please report Non-reproduciblity issues to the
+# maintainer.
 
 #==============================================================================
 # The base image: the Laniakea base image
