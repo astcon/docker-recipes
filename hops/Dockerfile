@@ -20,7 +20,9 @@ ARG	hopsversion=dv-difx-tc-3.20swc
 
 #==============================================================================
 # The base image: the Laniakea base image
+
 FROM	l6acon/lanibase:${srctag} AS base
+
 RUN	sed -n 's/^deb \(.*\) buster main$/deb \1 jessie main non-free/p' \
 		/etc/apt/sources.list >> /etc/apt/sources.list
 
@@ -31,7 +33,8 @@ RUN	laniapt	ca-certificates \
 		csh less
 
 #==============================================================================
-# The builder image
+# The builder image: compile HOPS
+
 FROM	base AS builder
 # HACK: redefine `ARG hopsversion` so it survives after FROM
 ARG     hopsversion
@@ -58,7 +61,8 @@ RUN	make install &&\
 	rm -r 3593.tar.gz testdata uninstall_manifest.txt
 
 #==============================================================================
-# The HOPS image
+# The HOPS runtime image
+
 FROM	base
 
 # Copy HOPS from the builder image
