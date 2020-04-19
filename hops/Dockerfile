@@ -16,7 +16,7 @@
 
 ARG     dsttag=
 ARG     srctag=20200130
-ARG     hopsversion=
+ARG     hopsversion=dv-difx-tc-3.20swc
 
 # This Dockfiler builds the Haystack Observatory Postprocessing System
 # (HOPS) environment for performing data calibration for the Event
@@ -61,9 +61,9 @@ RUN	apt-get -qq update &&\
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
 RUN	wget -q --no-check-certificate \
-		https://35.199.26.203/software/hops/hops-dv-difx-tc-3.20swc.tar.gz \
-		-P /usr/local/src &&\
-	tar -zxf /usr/local/src/hops-dv-difx-tc-3.20swc.tar.gz \
+		https://35.199.26.203/software/hops/hops-${hopsversion}.tar.gz \
+		-O /usr/local/src/hops.tar.gz &&\
+	tar -zxf /usr/local/src/hops.tar.gz \
 		-C /usr/local/src/hops --strip-components=1
 RUN	export HOPS_ROOT=/root &&\
 	../configure \
