@@ -35,10 +35,9 @@ ARG     hopsversion=
 FROM	l6acon/lanibase:${srctag} AS base
 
 # Setup runtime environment
-RUN	printf '\n\
-deb http://deb.debian.org/debian jessie main non-free\n\
-' >> /etc/apt/sources.list &&\
-	apt-get -qq update &&\
+RUN	sed -n 's/^deb \(.*\) buster main$/deb \1 jessie main non-free/p' \
+		/etc/apt/sources.list >> /etc/apt/sources.list
+RUN	apt-get -qq update &&\
 	apt-get install -y --no-install-recommends ca-certificates \
 		libgfortran3 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
