@@ -1,3 +1,19 @@
+# Copyright 2017,2020 Chi-kwan Chan
+# Copyright 2017 Center for Astrophysics | Harvard & Smithsonian
+# Copyright 2020 Steward Observatory
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License.  You
+# may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+
 # This Dockfiler builds the Haystack Observatory Postprocessing System
 # (HOPS) environment for performing data calibration for the Event
 # Horizon Telescope (EHT)'s April 2017 observations.
@@ -5,10 +21,14 @@
 # NOTE: Although a Docker image is immutable, building a new image is
 # not, even when the same Dockfile is used.  Hence, the resulting
 # images of `docker build .` may be different at different time.
-#
+
+ARG     dsttag=
+ARG     srctag=20200130
+ARG     hopsversion=
+
 #==============================================================================
-# The base image
-FROM	debian:stretch-slim AS base
+# The base image: the Laniakea base image
+FROM	l6acon/lanibase:${srctag} AS base
 
 # Setup runtime environment
 RUN	printf '\n\
