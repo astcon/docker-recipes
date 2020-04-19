@@ -63,8 +63,7 @@ RUN	apt-get -qq update &&\
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
-RUN	wget -q --no-check-certificate \
-		https://35.199.26.203/software/hops/hops-${hopsversion}.tar.gz \
+RUN	wget -q https://cloud.ehtcc.org/software/hops/hops-${hopsversion}.tar.gz \
 		-O /usr/local/src/hops.tar.gz &&\
 	tar -zxf /usr/local/src/hops.tar.gz \
 		-C /usr/local/src/hops --strip-components=1
