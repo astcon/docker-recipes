@@ -56,7 +56,8 @@ RUN	apt-get -qq update &&\
 	apt-get install -y --no-install-recommends \
 		gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync python3-future &&\
+		bc wget rsync \
+		python3-setuptools python3-future &&\
 	apt-get clean &&\
 	rm -rf /var/lib/apt/lists/*
 
