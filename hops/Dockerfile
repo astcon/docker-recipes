@@ -57,9 +57,8 @@ RUN	laniapt	gcc gfortran make automake autoconf libtool pkg-config \
 WORKDIR	/usr/local/src/hops/build
 RUN	lanisrc https://cloud.ehtcc.org/software/hops/hops-${hopsversion}.tar.gz \
 		/usr/local/src/hops
-RUN	export HOPS_ROOT=/root &&\
+RUN	export HOPS_ROOT=/usr/local/hops &&\
 	../configure \
-		--prefix=/usr/local/hops \
 		--enable-devel \
 		PGPLOT_DIR=/usr/lib/pgplot5
 RUN	. ./hops.bash &&\
