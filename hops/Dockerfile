@@ -48,6 +48,8 @@ RUN	apt-get -qq update &&\
 #==============================================================================
 # The builder image
 FROM	base AS builder
+# HACK: redefine `ARG hopsversion` so it survives after FROM
+ARG     hopsversion
 
 # Setup build environment
 RUN	apt-get -qq update &&\
