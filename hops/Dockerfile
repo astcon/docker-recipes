@@ -61,12 +61,12 @@ RUN	export HOPS_ROOT=/usr/local/hops &&\
 	../configure \
 		--enable-devel \
 		PGPLOT_DIR=/usr/lib/pgplot5
-RUN	. ./hops.bash &&\
-	make
-RUN	ln -s python3 /usr/bin/python &&\
+RUN	make
+RUN	ln -s /usr/bin/python3 /usr/local/bin/python &&\
 	make check
 RUN	make install &&\
-	cd /usr/local/hops/share/hops &&\
+	. ./hops.bash &&\
+	cd $HOPS_DOCS &&\
 	rm -r 3593.tar.gz testdata uninstall_manifest.txt
 
 #==============================================================================
