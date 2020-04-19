@@ -18,18 +18,6 @@ ARG	dsttag=3.20
 ARG	srctag=20200130
 ARG	hopsversion=dv-difx-tc-3.20swc
 
-# This Dockfiler builds the Haystack Observatory Postprocessing System
-# (HOPS) environment for performing data calibration for the Event
-# Horizon Telescope (EHT)'s observations.
-#
-# NOTE: In general, although a Docker image is immutable, building a
-# new image is not even when using the same Dockfile.  Nevertheless,
-# by using following Project Laninakea's best practices and using the
-# Laniakea base image, building a HOPS container using this Dockerfile
-# should be reporducible.  Non-reproduciblity is considered a bug in
-# Project Laniakea, please report Non-reproduciblity issues to the
-# maintainer.
-
 #==============================================================================
 # The base image: the Laniakea base image
 FROM	l6acon/lanibase:${srctag} AS base
