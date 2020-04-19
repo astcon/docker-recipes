@@ -79,6 +79,3 @@ RUN	HOPS_SETUP=$(find /usr/local/hops -name 'hops.bash' | sort -rV | head -n1) &
 	if test -n "$HOPS_SETUP"; then \
 		printf "\n# all users should source HOPS\nsource ${HOPS_SETUP}\n" >> /etc/bash.bashrc; \
 	fi
-
-# `docker run -it <HOPS_img>` will run as "root" in the HOPS environment
-WORKDIR	/root
