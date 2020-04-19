@@ -33,17 +33,14 @@ ARG     hopsversion=dv-difx-tc-3.20swc
 #==============================================================================
 # The base image: the Laniakea base image
 FROM	l6acon/lanibase:${srctag} AS base
-
-# Setup runtime environment
 RUN	sed -n 's/^deb \(.*\) buster main$/deb \1 jessie main non-free/p' \
 		/etc/apt/sources.list >> /etc/apt/sources.list
-RUN	apt-get -qq update &&\
-	apt-get install -y --no-install-recommends ca-certificates \
+
+# Setup runtime environment
+RUN	laniapt	ca-certificates \
 		libgfortran3 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
-		csh less &&\
-	apt-get clean &&\
-	rm -rf /var/lib/apt/lists/*
+		csh less
 
 #==============================================================================
 # The builder image
@@ -52,21 +49,14 @@ FROM	base AS builder
 ARG     hopsversion
 
 # Setup build environment
-RUN	apt-get -qq update &&\
-	apt-get install -y --no-install-recommends \
-		gcc gfortran make automake autoconf libtool pkg-config \
+RUN	laniapt	gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync \
-		python3-setuptools python3-future &&\
-	apt-get clean &&\
-	rm -rf /var/lib/apt/lists/*
+		bc wget rsync python3-setuptools python3-future
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
-RUN	wget -q https://cloud.ehtcc.org/software/hops/hops-${hopsversion}.tar.gz \
-		-O /usr/local/src/hops.tar.gz &&\
-	tar -zxf /usr/local/src/hops.tar.gz \
-		-C /usr/local/src/hops --strip-components=1
+RUN	lanisrc https://cloud.ehtcc.org/software/hops/hops-${hopsversion}.tar.gz \
+		/usr/local/src/hops
 RUN	export HOPS_ROOT=/root &&\
 	../configure \
 		--prefix=/usr/local/hops \
