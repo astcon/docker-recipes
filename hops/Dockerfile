@@ -14,9 +14,9 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG     dsttag=
-ARG     srctag=20200130
-ARG     hopsversion=dv-difx-tc-3.20swc
+ARG	dsttag=3.20
+ARG	srctag=20200130
+ARG	hopsversion=dv-difx-tc-3.20swc
 
 # This Dockfiler builds the Haystack Observatory Postprocessing System
 # (HOPS) environment for performing data calibration for the Event
