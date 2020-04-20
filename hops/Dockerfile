@@ -24,11 +24,9 @@ ARG	hopsversion=dv-difx-tc-3.20swc
 FROM	l6acon/lanibase:${srctag} AS base
 
 RUN	sed -n 's/^deb \(.*\) buster main$/deb \1 jessie main non-free/p' \
-		/etc/apt/sources.list >> /etc/apt/sources.list
-
-# Setup runtime environment
-RUN	laniapt	ca-certificates \
-		libgfortran3 libquadmath0 ghostscript-x \
+		/etc/apt/sources.list > /etc/apt/sources.list.d/jessie.list
+COPY	jessie.pref /etc/apt/preferences.d/
+RUN	laniapt	libgfortran3 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
 		csh less
 
@@ -42,7 +40,7 @@ ARG     hopsversion
 # Setup build environment
 RUN	laniapt	gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		bc wget rsync python3-setuptools python3-future
+		ca-certificates wget rsync bc python3-setuptools python3-future
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
