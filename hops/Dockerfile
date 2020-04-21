@@ -16,7 +16,7 @@
 
 ARG	dsttag=3.20
 ARG	srctag=20200130
-ARG	hopsversion=dv-difx-tc-3.20swc
+ARG	hopsversion=hops-dv-difx-tc-3.20swc
 
 #==============================================================================
 # The base image: the Laniakea base image
@@ -44,7 +44,7 @@ RUN	laniapt	gcc gfortran make automake autoconf libtool pkg-config \
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
-RUN	lanisrc https://cloud.ehtcc.org/software/hops/hops-${hopsversion}.tar.gz \
+RUN	lanisrc https://cloud.ehtcc.org/software/hops/${hopsversion}.tar.gz \
 		/usr/local/src/hops
 RUN	export HOPS_ROOT=/usr/local/hops &&\
 	../configure \
