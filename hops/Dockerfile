@@ -26,7 +26,7 @@ FROM	l6acon/lanibase:${srctag} AS base
 RUN	sed -n 's/^deb \(.*\) buster main$/deb \1 jessie main non-free/p' \
 		/etc/apt/sources.list > /etc/apt/sources.list.d/jessie.list
 COPY	jessie.pref /etc/apt/preferences.d/
-RUN	laniapt	libgfortran3 libquadmath0 ghostscript-x \
+RUN	laniapt	libgfortran5 libquadmath0 ghostscript-x \
 		libfftw3-double3 zlib1g libx11-6 libpng12-0 pgplot5 \
 		csh less
 
