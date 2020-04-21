@@ -40,7 +40,7 @@ ARG     hopsversion
 # Setup build environment
 RUN	laniapt	gcc gfortran make automake autoconf libtool pkg-config \
 		libfftw3-dev zlib1g-dev libx11-dev libpng12-dev pgplot5 \
-		ca-certificates wget rsync bc python3-setuptools python3-future
+		ca-certificates wget rsync bc python-setuptools python-future
 
 # Build HOPS
 WORKDIR	/usr/local/src/hops/build
@@ -51,7 +51,7 @@ RUN	export HOPS_ROOT=/usr/local/hops &&\
 		--enable-devel \
 		PGPLOT_DIR=/usr/lib/pgplot5
 RUN	make
-RUN	ln -s /usr/bin/python3 /usr/local/bin/python &&\
+RUN	ln -s /usr/bin/python /usr/local/bin/python &&\
 	make check
 RUN	make install &&\
 	. ./hops.bash &&\
