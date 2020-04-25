@@ -65,7 +65,4 @@ FROM	base
 
 # Copy HOPS from the builder image
 COPY	--from=builder /usr/local/hops /usr/local/hops
-RUN	HOPS_SETUP=$(find /usr/local/hops -name 'hops.bash' | sort -rV | head -n1) &&\
-	if test -n "$HOPS_SETUP"; then \
-		printf "\n# all users should source HOPS\nsource ${HOPS_SETUP}\n" >> /etc/bash.bashrc; \
-	fi
+COPY	entrypoint /usr/local/sbin/
