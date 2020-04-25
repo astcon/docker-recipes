@@ -14,7 +14,7 @@ https://astrocontainers.org/.
 
 ## Releases
 
-`astropy` tags | `lanibase` tag | `astropy` tag
+`astcon/astropy` tags | `l6acon/lanibase` tag | `astropy` version
 --- | --- | ---
 `2.0.16`, `20200130`, `2.0`, `2`, `latest` | `20200130` | `2.0.16`
 

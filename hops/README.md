@@ -16,7 +16,7 @@ https://astrocontainers.org/.
 
 ## Releases
 
-[`hops`][1] tags | `lanibase` tag | `hops` source version
+[`astcon/hops`][1] tags | `l6acon/lanibase` tag | HOPS source version
 --- | --- | ---
 `3.20`, `20200130`, `3`, `latest` | `20200130` | `hops-dv-difx-tc-3.20swc`
 
