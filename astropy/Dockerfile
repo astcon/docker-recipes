@@ -13,20 +13,22 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=1.6,20200130,1,latest
+ARG	dsttag=20200130,latest
 ARG	srctag=20200130
+ARG	astropytag=2.0.16
 
 FROM	l6acon/lanibase:${srctag} AS base
 
-# Generic science python packages
+# Common science python packages
 RUN	laniapt	python-setuptools python-pip python-wheel \
 		python-future python-py python-pytest \
 		python-numpy \
 		python-tk python-matplotlib
 
 # Astronomy python packages
+ARG	astropytag
 RUN	laniapt python-attr python-pluggy python-atomicwrites python-ephem
-RUN	pip install astropy==2.0.16
+RUN	pip install astropy==${astropytag}
 
 # ipython
 RUN	laniapt ipython

@@ -13,9 +13,9 @@ https://astrocontainers.org/.
 
 ## Releases
 
-`astropy` tags | `lanibase` tag
---- | ---
-`2.7`, `20200130`, `2`, `latest` | `20200130`
+`astropy` tags | `lanibase` tag | `astropy` tag
+--- | --- | ---
+`2.0.16`, `20200130`, `2.0`, `2`, `latest` | `20200130` | `2.0.16`
 
 In general, although a Docker image is immutable, building a new image
 is not even when using the same Dockerfile.
