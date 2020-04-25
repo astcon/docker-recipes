@@ -21,11 +21,11 @@ https://astrocontainers.org/.
 `3.20`, `20200130`, `3`, `latest` | `20200130` | `hops-dv-difx-tc-3.20swc`
 
 In general, although a Docker image is immutable, building a new image
-is not even when using the same Dockfile.
-Nevertheless, by following Project Laninakea's best practices and
-using the Laniakea base image, building a HOPS container using this
-Dockerfile should be reproducible.
-Non-reproduciblity is considered a bug in Project Laniakea, please
-report Non-reproduciblity issues to the maintainer.
+is not even when using the same Dockerfile.
+Nevertheless, by following Project Laniakea's best practices and using
+the Laniakea base image, building image with this Dockerfile should be
+reproducible.
+Non-reproducibility is considered a bug in Project Laniakea, please
+report non-reproducibility issues to the maintainer.
 
 [1]: https://hub.docker.com/repository/docker/astcon/hops
