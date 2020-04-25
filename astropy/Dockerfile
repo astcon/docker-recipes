@@ -25,11 +25,11 @@ RUN	laniapt	python-setuptools python-pip python-wheel \
 		python-numpy \
 		python-tk python-matplotlib
 
+# Use `ipython` as a standard CMD
+RUN	laniapt ipython
+CMD	["ipython"]
+
 # Astronomy python packages
 ARG	astropytag
 RUN	laniapt python-attr python-pluggy python-atomicwrites python-ephem
 RUN	pip install astropy==${astropytag}
-
-# ipython
-RUN	laniapt ipython
-CMD	["ipython"]
