@@ -1,12 +1,13 @@
 # `astropy`
 
-This Dockerfile builds a legacy `python2` `astropy` environment.
+This Dockerfile builds a legacy `python2` `astropy` environment for
+AstroContainers.
 
 Because AstroContainers are based on Project Laniakea, one can simply
-run this HOPS Docker image as a Laniakea subcommand.
+run this Docker image as a Laniakea subcommand.
 That is,
 
-    l6a astropy [args]
+    l6a astcon/astropy [args]
 
 Details on running AstroContainers images can be found in
 https://astrocontainers.org/.
