@@ -14,7 +14,7 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=3.20
+ARG	dsttag=3.20,20200130,3,latest
 ARG	srctag=20200130
 ARG	hopsversion=hops-dv-difx-tc-3.20swc
 
