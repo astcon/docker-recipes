@@ -13,7 +13,7 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=20200130,latest
+ARG	dsttag=2.0.16,20200130,2.0,2,latest
 ARG	srctag=20200130
 ARG	astropytag=2.0.16
 
