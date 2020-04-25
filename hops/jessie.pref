@@ -4,4 +4,4 @@
 
 Package: libpng12-0 libpng12-dev pgplot5
 Pin: release a=jessie
-Pin-Priority: 250
+Pin-Priority: 300
