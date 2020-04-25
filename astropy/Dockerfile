@@ -21,10 +21,8 @@ FROM	l6acon/lanibase:${srctag} AS base
 # Generic science python packages
 RUN	laniapt	python-setuptools python-pip python-wheel \
 		python-future python-py python-pytest \
-		python-more-itertools python-pyfftw python-pynfft \
-		python-tables python-pandas python-h5py python-scipy \
-		python-tk python-matplotlib python-seaborn \
-		python-skimage python-sklearn
+		python-numpy \
+		python-tk python-matplotlib
 
 # Astronomy python packages
 RUN	laniapt python-attr python-pluggy python-atomicwrites python-ephem
@@ -32,17 +30,4 @@ RUN	pip install astropy==2.0.16
 
 # ipython
 RUN	laniapt ipython
-
-# Jupyter notebook
-RUN	laniapt jupyter-notebook jupyter-nbconvert
-COPY	notebook /usr/local/bin/
-
 CMD	["ipython"]
-
-# To use Jupyter Notebook, run the following from the host:
-#
-#	docker run --rm -p8888:8888 -it ehtcon/eat notebook
-#
-# then use a browser to open
-#
-#	http://[localhost or ip of remote machine]:8888?token=1234...
