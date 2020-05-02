@@ -7,7 +7,7 @@ Because AstroContainers are based on Project Laniakea, one can simply
 run this Docker image as a Laniakea subcommand.
 That is,
 
-    l6a astcon/astropy [args]
+    l6a astropy [args]
 
 Details on running AstroContainers images can be found in
 https://astrocontainers.org/.
