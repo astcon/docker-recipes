@@ -11,5 +11,5 @@ The comments column is optional.
 
 Image Name | Tags | Packages | Base | Comments
 --- | --- | --- | --- | ---
-casa | 3.0.0,3.0,3,latest | python3-casabase
-difmap | 2.5b, latest | | casa:3.0.0
+`casa` | `3.0.0`, `3.0`, `3`, `latest` | `python3-casabase`
+`difmap` | `2.5b`, `latest` | | `casa:3.0.0`
