@@ -11,4 +11,4 @@ The comments column is optional.
 
 Image Name | Tags | Packages | Base | Comments
 --- | --- | --- | --- | ---
-casa | | python3-casabase
+casa | 3.0.0,3.0,3,latest | python3-casabase
