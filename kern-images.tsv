@@ -6,4 +6,4 @@
 # image name will be used as the only package name.
 #
 Image Name	Packages	Comments
-casa	python3-casabase
+casa	python3-casabase	
