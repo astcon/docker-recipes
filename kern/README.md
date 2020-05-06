@@ -15,7 +15,7 @@ https://astrocontainers.org/.
 
 [`astcon/kern`][1] tags | `l6acon/lanibase` tag | Ubuntu digest
 --- | --- | ---
-`10.04`, `20200112`, `10`, `bionic`, `latest` | `20200130` | `sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f`
+`5`, `20200112`, `bionic`, `latest` | `20200130` | `sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f`
 
 TODO: because this image is based on Ubuntu, we have not pinned its
 package repository to specific dates.
