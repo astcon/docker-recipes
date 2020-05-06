@@ -2,10 +2,13 @@
 
 Add additional rows in the following table for AstroContainers to
 automatically build more Docker images.
-All images listed here will be based on `astcon/kern`.
-If the packages column is missing, the image name will be used as the
-only package name.
+All images listed here shoudl be based, directly or through another
+image, on `astcon/kern`.
+If the tags column is missing, the base image tags will be used.
+If the packages column is missing, the image name will be used.
+If the base column is missing, `astcon/kern` is assumed.
+The comments column is optional.
 
-Image Name | Packages | Comments
---- | --- | ---
-casa | python3-casabase
+Image Name | Tags | Packages | Base | Comments
+--- | --- | --- | --- | ---
+casa | | python3-casabase
