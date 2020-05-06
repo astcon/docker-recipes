@@ -21,6 +21,7 @@ ARG	digest=sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce
 # The base image: an official python image
 
 FROM	ubuntu@${digest} AS base
+LABEL	maintainer="Chi-kwan Chan <chanc@arizona.edu>"
 
 COPY	kernsuite_ubuntu_kern-5.gpg         /etc/apt/trusted.gpg.d/
 COPY	kernsuite-ubuntu-kern-5-bionic.list /etc/apt/sources.list.d/
@@ -34,6 +35,8 @@ FROM	l6acon/lanibase:${srctag} AS builder
 # The Laniakea python runtime image
 
 FROM	base
+ENV	LANG=C.UTF-8 \
+	LC_ALL=C.UTF-8
 
 COPY	--from=builder /usr/local/sbin/* /usr/local/sbin/
 RUN	chmod u+s /usr/local/sbin/selfadd
