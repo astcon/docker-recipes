@@ -22,6 +22,9 @@ ARG	digest=sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce
 
 FROM	ubuntu@${digest} AS base
 
+COPY	kernsuite_ubuntu_kern-5.gpg         /etc/apt/trusted.gpg.d/
+COPY	kernsuite-ubuntu-kern-5-bionic.list /etc/apt/sources.list.d/
+
 #==============================================================================
 # The builder image: the Laniakea base image
 
@@ -37,8 +40,3 @@ RUN	chmod u+s /usr/local/sbin/selfadd
 
 ENTRYPOINT	["/usr/local/sbin/entrypoint"]
 CMD	["bash"]
-
-RUN	laniapt software-properties-common &&\
-	add-apt-repository -s ppa:kernsuite/kern-5 &&\
-	apt-add-repository multiverse &&\
-	apt-add-repository restricted
