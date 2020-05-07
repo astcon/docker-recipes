@@ -13,7 +13,7 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=10.04,20200112,bionic,latest
+ARG	dsttag=5,20200112,bionic,latest
 ARG	srctag=20200130
 ARG	digest=sha256:3235326357dfb65f1781dbc4df3b834546d8bf914e82cce58e6e6b676e23ce8f
 
