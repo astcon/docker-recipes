@@ -11,6 +11,6 @@ The comments column is optional.
 
 Image Name | Tags | Packages | Base | Comments
 --- | --- | --- | --- | ---
-`aips` | `31dec18`, `latest` | `aips`, `parseltongue`
-`casacore` | `3.0.0`, `3.0`, `3`, `latest` | `python3-casacore`
-`difmap` | `2.5b-kern5`, `latest` | | `casacore:3.0.0`
+`aips` | `31dec18-kern5`, `latest` | `aips`, `parseltongue`
+`casacore` | `3.0.0-kern5`, `3.0-kern5`, `3-kern5`, `latest` | `python3-casacore`
+`difmap` | `2.5b-kern5`, `latest`
