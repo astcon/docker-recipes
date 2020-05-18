@@ -18,7 +18,8 @@ https://astrocontainers.org/.
 
 [`astcon/hops`][1] tags | `l6acon/lanibase` tag | HOPS source version
 --- | --- | ---
-`3.20`, `20200130`, `3`, `latest` | `20200130` | `hops-dv-difx-tc-3.20swc`
+`3.21`, `20200422`, `3`, `latest` | `20200422` | `hops-dv-difx-tc-3.21swc`
+`3.20`, `20200130`                | `20200130` | `hops-dv-difx-tc-3.20swc`
 
 In general, although a Docker image is immutable, building a new image
 is not even when using the same Dockerfile.
