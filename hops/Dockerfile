@@ -56,7 +56,7 @@ RUN	ln -s /usr/bin/python /usr/local/bin/python &&\
 RUN	make install &&\
 	. ./hops.bash &&\
 	cd $HOPS_DOCS &&\
-	rm -r 3593.tar.gz testdata uninstall_manifest.txt
+	rm -r 3593.tar.gz
 
 #==============================================================================
 # The HOPS runtime image
