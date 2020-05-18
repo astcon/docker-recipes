@@ -14,9 +14,9 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=3.20,20200130,3,latest
-ARG	srctag=20200130
-ARG	hopsversion=hops-dv-difx-tc-3.20swc
+ARG	dsttag=3.21,20200422,3,latest
+ARG	srctag=20200422
+ARG	hopsversion=hops-dv-difx-tc-3.21swc
 
 #==============================================================================
 # The base image: the Laniakea base image
