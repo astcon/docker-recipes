@@ -31,6 +31,5 @@ CMD	["ipython3"]
 
 # Astronomy python packages
 ARG	astropytag
-RUN	laniapt python3-attr python3-pluggy python3-atomicwrites \
-		python3-ephem python3-astropy
-#RUN	pip3 install astropy==${astropytag}
+RUN	laniapt python3-attr python3-pluggy python3-atomicwrites python3-ephem
+RUN	pip3 install astropy==${astropytag}
