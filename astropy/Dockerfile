@@ -20,16 +20,16 @@ ARG	astropytag=2.0.16
 FROM	l6acon/lanibase:${srctag} AS base
 
 # Common science python packages
-RUN	laniapt	python-setuptools python-pip python-wheel \
-		python-future python-py python-pytest \
-		python-numpy \
-		python-tk python-matplotlib
+RUN	laniapt	python3-setuptools python3-pip python3-wheel \
+		python3-future python3-py python3-pytest \
+		python3-numpy \
+		python3-tk python3-matplotlib
 
 # Use `ipython` as a standard CMD
-RUN	laniapt ipython
-CMD	["ipython"]
+RUN	laniapt ipython3
+CMD	["ipython3"]
 
 # Astronomy python packages
 ARG	astropytag
-RUN	laniapt python-attr python-pluggy python-atomicwrites python-ephem
-RUN	pip install astropy==${astropytag}
+RUN	laniapt python3-attr python3-pluggy python3-atomicwrites python3-ephem
+RUN	pip3 install astropy==${astropytag}
