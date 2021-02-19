@@ -13,9 +13,9 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
-ARG	dsttag=3.0.5,3.0,3,latest
+ARG	dsttag=3.1.2,20200422,3.1,3,latest
 ARG	srctag=20200422
-ARG	astropytag=3.0.5
+ARG	astropytag=3.1.2
 
 FROM	l6acon/lanibase:${srctag} AS base
 
