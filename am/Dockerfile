@@ -40,6 +40,7 @@ RUN	lanisrc https://zenodo.org/record/3406483/files/am-${amversion}.tgz?download
 		/usr/local/src/am
 RUN	make am
 RUN	mkdir -p /usr/local/am/bin && cp am /usr/local/am/bin/
+COPY	am.sh /usr/local/am/bin
 
 #==============================================================================
 # The AM runtime image
@@ -48,5 +49,6 @@ FROM	base
 
 # Copy AM from the builder image
 COPY	--from=builder /usr/local/am /usr/local/am
-COPY	am.sh /usr/local/am/bin
-COPY    entrypoint /usr/local/sbin/
+
+# Setup the AM environment
+ENV	L6A_HOOK=/usr/local/am/bin/am.sh
