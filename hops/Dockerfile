@@ -65,4 +65,6 @@ FROM	base
 
 # Copy HOPS from the builder image
 COPY	--from=builder /usr/local/hops /usr/local/hops
-COPY	entrypoint /usr/local/sbin/
+
+# Setup the HOPS environment
+ENV	L6A_HOOK=/usr/local/hops/x86_64-3.21/bin/hops.bash
